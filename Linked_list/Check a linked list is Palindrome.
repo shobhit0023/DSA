@@ -1,0 +1,82 @@
+#include<iostream>
+using namespace std;
+class Node{
+public:
+  int data;
+  Node* next;
+  Node(){
+    this->data=0;
+    this->next=NULL;
+  }
+ Node(int data){
+    this->data=data;
+    this->next = NULL;
+ }
+};
+Node* reverse(Node* &head){
+    Node* prev=NULL;
+    Node* curr=head;
+    Node* frwrd=curr->next;
+    while(curr!=NULL){
+     frwrd=curr->next;
+     curr->next=prev;
+     prev=curr;
+     curr=frwrd;
+    }
+  return prev;
+}
+bool checkPalind(Node* &head){
+   // Step 1: Find mid
+
+    Node* slow = head;
+    Node* fast = head;
+    while(fast!=NULL){
+        fast=fast->next;
+        if(fast!=NULL){
+            slow=slow->next;
+            fast=fast->next;
+        }
+    }
+    //Step2: Reverse after mid.
+     Node* reversehead=reverse(slow->next);
+     slow->next=reversehead;
+
+     Node* temp1=head;
+     Node* temp2=reversehead;
+
+     while(temp2!=NULL){
+        if(temp1->data != temp2->data){
+           return false;
+        }
+        else{
+          temp1=temp1->next;
+          temp2=temp2->next;
+        }
+     }
+     
+      
+      return false;
+}
+int main(){
+  Node* head = new Node(10);
+  Node* second = new Node(20);
+  Node* third = new Node(30);
+  Node* fourth = new Node(20);
+  Node* fifth = new Node(10);
+  
+
+  head->next = second;
+  second->next = third;
+  third->next = fourth;
+  fourth->next=fifth;
+
+  bool isPalindrome=checkPalind(head);
+
+  if(isPalindrome){
+      cout<<"LL is Palindrome";
+  }
+  else{
+    cout<<"LL is not a Palindrome";
+  }
+
+}
