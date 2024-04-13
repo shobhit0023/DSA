@@ -1,0 +1,121 @@
+
+#include<iostream>
+using namespace std;
+class Node{
+public:
+  int data;
+  Node* next;
+  Node(){
+    this->data=0;
+    this->next=NULL;
+  }
+ Node(int data){
+    this->data=data;
+    this->next = NULL;
+ }
+};
+Node* countSort(Node* &head){
+    Node* curr = head;
+
+    Node* zerohead = new Node(-1);  
+    Node* zero = zerohead;
+
+    Node* onehead = new Node(-1);    
+    Node* one = onehead;
+
+    Node* twohead = new Node(-1);   
+    Node* two = twohead;
+
+    while(curr!=NULL)
+    { 
+      if(curr->data == 0){
+         Node* temp=curr;
+         curr=curr->next;
+         temp->next=NULL;
+
+         zero->next=temp;
+         zero=temp;
+      }
+      else if(curr->data == 1){
+           Node* temp=curr;
+           curr=curr->next;
+           temp->next=NULL;
+
+           one->next=temp;
+           one=temp;
+      }
+      else if(curr->data == 2){
+           Node* temp=curr;
+           curr=curr->next;
+           temp->next=NULL;
+
+           two->next=temp;
+           two=temp;
+      }
+
+    }
+
+    
+       Node* temp = zerohead;
+       zerohead=zerohead->next;
+       temp->next = NULL;
+       delete temp;
+    
+  
+        temp = onehead;
+       onehead=onehead->next;
+       temp->next = NULL;
+       delete temp;
+    
+     
+        temp = twohead;
+       twohead=twohead->next;
+       temp->next = NULL;
+       delete temp;
+    
+
+    if(onehead !=NULL){
+       zero->next=onehead;
+       if(twohead!=NULL){
+         one->next=twohead;
+       }
+    }
+    else{
+      if(twohead!=NULL){
+        zero->next=twohead;
+      }
+    }
+
+    return zerohead;
+}
+   
+void print(Node* &head){
+         Node* temp = head;  
+        while(temp!=NULL){
+            cout<<temp->data<<" ";
+            temp = temp->next;
+        }
+        
+  }
+  int main(){
+  Node* head = new Node(0);
+  Node* second = new Node(1);
+  Node* third = new Node(2);
+  Node* fourth = new Node(1);
+  Node* fifth = new Node(0);
+  Node* sixth = new Node(2);
+  
+
+  head->next = second;
+  second->next = third;
+  third->next = fourth;
+  fourth->next=fifth;
+  fifth->next=sixth;
+  cout<<"Printing LL:";
+  print(head);
+
+  cout<<endl;
+  head=countSort(head);
+  cout<<"Sorted LL is:";
+  print(head);
+  }
